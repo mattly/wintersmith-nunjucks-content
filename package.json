@@ -1,0 +1,33 @@
+{
+  "name": "wintersmith-nunjucks-content",
+  "version": "0.1.0",
+  "author": {
+    "name": "Matthew Lyon",
+    "email": "matthew@lyonheart.us"
+  },
+  "description": "Nunjucks Content Plugin for Wintersmith",
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattly/wintersmith-nunjucks-content.git"
+  },
+  "homepage": "https://github.com/mattly/wintersmith-nunjucks-content",
+  "keywords": [
+    "wintersmith",
+    "wintersmith-plugin",
+    "nunjucks"
+  ],
+  "dependencies": {
+    "nunjucks": "~1.0.0",
+    "async": "~0.2.10"
+  },
+  "dev_dependencies": {
+    "cheerio": ">=0.10.x",
+    "coffee-script": "1.7.x"
+  },
+  "scripts": {
+    "prepublish": "./node_modules/.bin/coffee -b -p -c plugin.coffee > index.js"
+  }
+}
+
