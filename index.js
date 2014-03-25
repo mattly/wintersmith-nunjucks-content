@@ -12,7 +12,7 @@ nunjucks = require('nunjucks');
 async = require('async');
 
 module.exports = function(env, ready) {
-  var NunjucksContent, NunjucksGivenLoader;
+  var NunjucksContent, NunjucksGivenLoader, loadFilters;
   NunjucksContent = (function(_super) {
     __extends(NunjucksContent, _super);
 
@@ -54,6 +54,16 @@ module.exports = function(env, ready) {
     return NunjucksGivenLoader;
 
   })();
+  loadFilters = function(nenv) {
+    if (env.config.nunjucks && env.config.nunjucks.filterdir) {
+      env.config.nunjucks.filters.map(function(name) {
+        var file, filter;
+        file = path.join(env.config.nunjucks.filterdir, name + ".js");
+        filter = env.loadModule(env.resolvePath(file), true);
+        nenv.addFilter(name, filter);
+      });
+    }
+  };
   NunjucksContent.fromFile = function(filepath, callback) {
     return async.waterfall([
       function(next) {
@@ -69,6 +79,7 @@ module.exports = function(env, ready) {
           fallback: new nunjucks.FileSystemLoader(contentPath)
         });
         nenv = new nunjucks.Environment(nloader);
+        loadFilters(nenv);
         try {
           template = nenv.getTemplate('given');
           return next(null, new NunjucksContent(filepath, result.metadata, template));

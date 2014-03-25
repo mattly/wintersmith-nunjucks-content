@@ -16,6 +16,15 @@ module.exports = (env, ready) ->
       else @opts.fallback.getTemplate(name)
     on: ->
 
+  loadFilters = (nenv) ->
+    if env.config.nunjucks and env.config.nunjucks.filterdir
+      env.config.nunjucks.filters.map (name) ->
+        file = path.join(env.config.nunjucks.filterdir, name + ".js")
+        filter = env.loadModule(env.resolvePath(file), true)
+        nenv.addFilter name, filter
+        return
+    return
+
   NunjucksContent.fromFile = (filepath, callback) ->
     async.waterfall [
       (next) -> fs.readFile(filepath.full, next)
@@ -30,6 +39,7 @@ module.exports = (env, ready) ->
           fallback: new nunjucks.FileSystemLoader(contentPath)
         })
         nenv = new nunjucks.Environment(nloader)
+        loadFilters nenv
         try
           template = nenv.getTemplate('given')
           next(null, new NunjucksContent(filepath, result.metadata, template))
