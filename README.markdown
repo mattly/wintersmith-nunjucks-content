@@ -36,5 +36,3 @@ It will be available in your content as 'myfirstfilter'
 ## TODO
 
 2. Custom Tags
-
-[wintersmith-nunjucks]: https://github.com/jbuck/wintersmith-nunjucks
