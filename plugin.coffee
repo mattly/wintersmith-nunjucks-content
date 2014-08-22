@@ -6,7 +6,9 @@ async = require 'async'
 module.exports = (env, ready) ->
   class NunjucksContent extends env.plugins.Page
     constructor: (@filepath, @metadata, @tpl) ->
-    getFilename: -> @filepath.relative.replace(/nunjucks$/,'html')
+    getFilename: ->
+      @filepath.relative = @filepath.relative.replace(/nunjucks$/,'html')
+      super
     getHtml: -> @tpl.render(@metadata)
 
   class NunjucksGivenLoader

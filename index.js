@@ -23,7 +23,8 @@ module.exports = function(env, ready) {
     }
 
     NunjucksContent.prototype.getFilename = function() {
-      return this.filepath.relative.replace(/nunjucks$/, 'html');
+      this.filepath.relative = this.filepath.relative.replace(/nunjucks$/, 'html');
+      return NunjucksContent.__super__.getFilename.apply(this, arguments);
     };
 
     NunjucksContent.prototype.getHtml = function() {
